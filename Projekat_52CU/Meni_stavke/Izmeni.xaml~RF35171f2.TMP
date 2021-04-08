@@ -1,0 +1,269 @@
+﻿<UserControl x:Class="Projekat_52CU.Meni_stavke.Izmeni"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:val="clr-namespace:Projekat_52CU"
+        xmlns:local="clr-namespace:Projekat_52CU.Meni_stavke"
+        mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBox x:Name="PART_TextBox"
+                        Text="{Binding Path=SelectedDate, StringFormat='dd MMM yyyy', 
+                        RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="rowStyle" TargetType="RowDefinition">
+            <Setter Property="Height" Value="22"/>
+        </Style>
+        <Style x:Key="checkStyle" TargetType="CheckBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="txtStyle" TargetType="TextBox">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Setter Property="Padding" Value="2,2,2,2"/>
+            <Setter Property="Margin" Value="5,0,40,2"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style x:Key="comboStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="50,0,0,0"/>
+            <Setter Property="Width" Value="130"/>
+        </Style>
+        <Style x:Key="btnStyle" TargetType="Button">
+            <Setter Property="Margin" Value="10,0,5,5"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="0.5">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" 
+                                                        ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="LightSkyBlue"/>
+                                        <GradientStop Offset="0.3" Color="Transparent"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center">
+                                </ContentPresenter>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="LightBlue" Offset="1"/>
+                                            <GradientStop Color="MediumBlue" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.3"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="tblockStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="3,0,0,4"/>
+        </Style>
+        <Style x:Key="opisStyle" TargetType="TextBox">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Setter Property="Padding" Value="2,3,2,3"/>
+            <Setter Property="Margin" Value="5,0,0,2"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+        
+        <local:Izmeni x:Key="izmeni"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding Path=MyContent}"/>
+        <Grid Grid.Column="0" Grid.Row="0" Name="control">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button DockPanel.Dock="Right" Name="btnIzmeni" IsDefault="True" Click="Click_Izmeni" Style="{StaticResource ResourceKey=btnStyle}">
+                        <AccessText>_Izmeni</AccessText>
+                    </Button>
+                    <Button DockPanel.Dock="Right" Name="btnObrisi" Click="Click_Obrisi" Style="{StaticResource ResourceKey=btnStyle}">
+                        <AccessText>O_brisi</AccessText>
+                    </Button>
+                    <Button DockPanel.Dock="Left" Click="Click_Dodaj" Style="{StaticResource ResourceKey=btnStyle}">
+                        <AccessText>_Dodaj</AccessText>
+                    </Button>
+                    <Separator DockPanel.Dock="Bottom" Margin="15,0,15,3"></Separator>
+                </DockPanel>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="135" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="dgrMain" SelectedIndex="{Binding Path=(Projekat_52CU.Meni_stavke:Izmeni.PromeniSelekcija)}" ItemsSource="{Binding Path=Lokali}" HorizontalAlignment="Left" Margin="30,5,0,10" Background="Aqua" SelectionChanged="dg_SelectionChanged" IsReadOnly="True" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Jedinstvena oznaka" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Oznaka}" FontSize="12"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Naziv lokala" Width="150" FontSize="12" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Ime}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Tip lokala" Width="150" FontSize="12" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Tip_string, Mode=OneWay}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Pusenje: "></TextBlock>
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                    </DataGrid>
+                    <Grid DataContext="{Binding ElementName=dgrMain,Path=SelectedItem}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right">
+                        <Border Margin="10,5,30,5" Width="85" Height="85" BorderBrush="Black" BorderThickness="0.75" Padding="3">
+                            <Image Name="imgPhoto" Width="82" Height="82" Stretch="Fill" Source="{Binding Path=Slika, Mode=TwoWay}"/>
+                        </Border>
+                        <TextBlock FontSize="12" Margin="10,5,30,0" HorizontalAlignment="Center" VerticalAlignment="Bottom">Slika lokala</TextBlock>
+                    </Grid>
+                    
+                    <Grid Grid.Column="0" Grid.Row="1" DataContext="{Binding ElementName=dgrMain,Path=SelectedItem}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}" Height="70"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                            <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource ResourceKey=tblockStyle}">Jedinstvena oznaka:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource ResourceKey=tblockStyle}">Naziv lokala:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource ResourceKey=tblockStyle}">Opis:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource ResourceKey=tblockStyle}">Sluzenje alkohola:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="4" Style="{StaticResource ResourceKey=tblockStyle}">Kategorija cena:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="5" Style="{StaticResource ResourceKey=tblockStyle}">Kategorija kapaciteta:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="6" Style="{StaticResource ResourceKey=tblockStyle}">Tip lokala:</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.Row="7" Style="{StaticResource ResourceKey=tblockStyle}">Etiketa:</TextBlock>
+                        <TextBlock Grid.Column="2" Style="{StaticResource ResourceKey=tblockStyle}" Margin="0,-50,40,0" Grid.Row="2">Datum otvaranja lokala:</TextBlock>
+
+                        <TextBox IsEnabled="False" Text="{Binding Path=Oznaka}" Grid.Column="1" Grid.Row="0" Name="jed_oznaka" Margin="5,0,40,0" Style="{StaticResource ResourceKey=txtStyle}"/>
+                        <TextBox IsEnabled="False" Text="{Binding Path=Ime}" Grid.Column="1" Grid.Row="1" Name="txt_naziv" Style="{StaticResource ResourceKey=txtStyle}"/>
+                        <TextBox IsEnabled="False" Grid.Column="1" Grid.Row="2" Text="{Binding Path=Opis, Mode=TwoWay}" Style="{StaticResource ResourceKey=opisStyle}"></TextBox>
+                        <DatePicker IsEnabled="False" Grid.Column="2" Grid.Row="2" Name="dp" SelectedDate="{Binding Path=Datum}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="45,25,0,0"/>
+
+                        <ComboBox IsEnabled="False" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Path=Spec_alkohol}" SelectedIndex="{Binding Path=Alkohol}" Style="{StaticResource ResourceKey=comboStyle}"/>
+                        <ComboBox IsEnabled="False" Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Path=Spec_cene}" SelectedIndex="{Binding Path=Cene}" Style="{StaticResource ResourceKey=comboStyle}"/>
+                        <ComboBox IsEnabled="False" Grid.Column="1" Grid.Row="5" ItemsSource="{Binding Path=Spec_kapacitet}" SelectedIndex="{Binding Path=Kapacitet}" Style="{StaticResource ResourceKey=comboStyle}"/>
+
+                        <ComboBox IsEnabled="False" Grid.Column="1" Grid.Row="6" ItemsSource="{Binding Path=Spec_tip}" SelectedIndex="{Binding Path=Tip}" Style="{StaticResource ResourceKey=comboStyle}"/>
+                        <ComboBox Height="30" Grid.Column="1" Grid.Row="7" Name="etikete" FontSize="12" TextBoxBase.TextChanged="etikete_TextChanged" SelectionChanged="etikete_SelectionChanged" HorizontalAlignment="Left" VerticalAlignment="Top" IsEditable="True" IsTextSearchEnabled="True" StaysOpenOnEdit="True" Width="130" Margin="50,0,0,0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsEnabled="False" Name="chkEtikete" Width="220" Checked="AllCheckbocx_CheckedAndUnchecked" Unchecked="AllCheckbocx_CheckedAndUnchecked" Content="{Binding Oznaka}" IsChecked="{Binding Check_Status}" CommandParameter="{Binding ID}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <CheckBox IsEnabled="False" Grid.Column="2" Grid.Row="4" Style="{StaticResource ResourceKey=checkStyle}" IsChecked="{Binding Path=Hendikepirani}">
+                            <WrapPanel>
+                                <TextBlock  Style="{StaticResource ResourceKey=tblockStyle}">
+					        Hendikepirani
+                                </TextBlock>
+                                <Image Source="disabled_JTn_icon.ico" Width="16" Height="16" Margin="5,0" />
+                            </WrapPanel>
+                        </CheckBox>
+
+                        <CheckBox IsEnabled="False" Grid.Column="3" Grid.Row="5" Style="{StaticResource ResourceKey=checkStyle}" IsChecked="{Binding Path=Pusenje}">
+                            <WrapPanel>
+                                <TextBlock  Style="{StaticResource ResourceKey=tblockStyle}">
+					        Dozvoljeno pusenje
+                                </TextBlock>
+                                <Image Source="smoking_fgN_icon.ico" Width="16" Height="16" Margin="5,0" />
+                            </WrapPanel>
+                        </CheckBox>
+
+                        <CheckBox IsEnabled="False" Grid.Column="3" Grid.Row="6" Style="{StaticResource ResourceKey=checkStyle}" IsChecked="{Binding Path=Rezervacije}">
+                            <WrapPanel>
+                                <TextBlock  Style="{StaticResource ResourceKey=tblockStyle}">
+					        Rezervacije
+                                </TextBlock>
+                                <Image Source="reservation_oY1_icon.ico" Width="16" Height="16" Margin="5,0" />
+                            </WrapPanel>
+                        </CheckBox>
+                    </Grid>
+                    <ScrollBar HorizontalAlignment="Left" Margin="792,135,-17,0" VerticalAlignment="Top" RenderTransformOrigin="0.387,-2.985"/>
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLokal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Lokal>
+    <Spec_kapacitet>
+      <string>Do 50 mesta</string>
+      <string>Od 50 do 100 mesta</string>
+      <string>Od 100 do 250 mesta</string>
+      <string>Preko 250 mesta</string>
+    </Spec_kapacitet>
+    <Spec_cene>
+      <string>Niske</string>
+      <string>Srednje</string>
+      <string>Visoke</string>
+      <string>Izuzetno visoke</string>
+    </Spec_cene>
+    <Spec_alkohol>
+      <string>Ne sluzi se</string>
+      <string>Sluzi se do 23h</string>
+      <string>Sluzi se kasno u noc</string>
+    </Spec_alkohol>
+    <Spec_tip>
+      <string>tip123</string>
+      <string>tip456</string>
+    </Spec_tip>
+    <Spec_etiketa>
+      <string>et789</string>
+      <string>et654</string>
+      <string>et123</string>
+    </Spec_etiketa>
+    <Oznaka>lok12</Oznaka>
+    <Ime>lokal 12</Ime>
+    <Opis>opis tog lokala</Opis>
+    <Tip>0</Tip>
+    <Tip_string>kafici</Tip_string>
+    <Etikete />
+    <Oznaka_etikete />
+    <Pusenje>false</Pusenje>
+    <Alkohol>0</Alkohol>
+    <Cene>0</Cene>
+    <Kapacitet>0</Kapacitet>
+    <Datum>6/9/2019 12:00:00 AM</Datum>
+    <Hendikepirani>false</Hendikepirani>
+    <Rezervacije>false</Rezervacije>
+    <Slika>file:///C:/Users/Aleksandar Beker/Documents/WEB/Vezbe/v2/Resursi/shimmering substance.jpg</Slika>
+    <Pozicija>
+      <Point>
+        <X>582</X>
+        <Y>77</Y>
+      </Point>
+    </Pozicija>
+  </Lokal>
+  <Lokal>
+    <Spec_kapacitet>
+      <string>Do 50 mesta</string>
+      <string>Od 50 do 100 mesta</string>
+      <string>Od 100 do 250 mesta</string>
+      <string>Preko 250 mesta</string>
+    </Spec_kapacitet>
+    <Spec_cene>
+      <string>Niske</string>
+      <string>Srednje</string>
+      <string>Visoke</string>
+      <string>Izuzetno visoke</string>
+    </Spec_cene>
+    <Spec_alkohol>
+      <string>Ne sluzi se</string>
+      <string>Sluzi se do 23h</string>
+      <string>Sluzi se kasno u noc</string>
+    </Spec_alkohol>
+    <Spec_tip>
+      <string>tip123</string>
+      <string>tip456</string>
+    </Spec_tip>
+    <Spec_etiketa>
+      <string>et789</string>
+      <string>et654</string>
+      <string>et123</string>
+    </Spec_etiketa>
+    <Oznaka>lok 32</Oznaka>
+    <Ime>dksa</Ime>
+    <Opis />
+    <Tip>0</Tip>
+    <Tip_string>kafici</Tip_string>
+    <Etikete />
+    <Oznaka_etikete />
+    <Pusenje>true</Pusenje>
+    <Alkohol>0</Alkohol>
+    <Cene>0</Cene>
+    <Kapacitet>0</Kapacitet>
+    <Datum>6/9/2019 12:00:00 AM</Datum>
+    <Hendikepirani>false</Hendikepirani>
+    <Rezervacije>false</Rezervacije>
+    <Slika>file:///C:/Users/Aleksandar Beker/Documents/WEB/Vezbe/v2/Resursi/number 8.jpg</Slika>
+    <Pozicija>
+      <Point>
+        <X>588</X>
+        <Y>160</Y>
+      </Point>
+      <Point>
+        <X>611</X>
+        <Y>290</Y>
+      </Point>
+    </Pozicija>
+  </Lokal>
+  <Lokal>
+    <Spec_kapacitet>
+      <string>Do 50 mesta</string>
+      <string>Od 50 do 100 mesta</string>
+      <string>Od 100 do 250 mesta</string>
+      <string>Preko 250 mesta</string>
+    </Spec_kapacitet>
+    <Spec_cene>
+      <string>Niske</string>
+      <string>Srednje</string>
+      <string>Visoke</string>
+      <string>Izuzetno visoke</string>
+    </Spec_cene>
+    <Spec_alkohol>
+      <string>Ne sluzi se</string>
+      <string>Sluzi se do 23h</string>
+      <string>Sluzi se kasno u noc</string>
+    </Spec_alkohol>
+    <Spec_tip>
+      <string>tip123</string>
+      <string>tip456</string>
+    </Spec_tip>
+    <Spec_etiketa>
+      <string>et789</string>
+      <string>et654</string>
+      <string>et123</string>
+    </Spec_etiketa>
+    <Oznaka>kdsam</Oznaka>
+    <Ime>kdms</Ime>
+    <Opis />
+    <Tip>0</Tip>
+    <Tip_string>kafici</Tip_string>
+    <Etikete />
+    <Oznaka_etikete />
+    <Pusenje>true</Pusenje>
+    <Alkohol>0</Alkohol>
+    <Cene>0</Cene>
+    <Kapacitet>0</Kapacitet>
+    <Datum>6/9/2019 12:00:00 AM</Datum>
+    <Hendikepirani>false</Hendikepirani>
+    <Rezervacije>true</Rezervacije>
+    <Slika>file:///C:/Users/Aleksandar Beker/Documents/WEB/Vezbe/v2/Resursi/1426452029_675__black-texture.jpg</Slika>
+    <Pozicija>
+      <Point>
+        <X>501</X>
+        <Y>267</Y>
+      </Point>
+    </Pozicija>
+  </Lokal>
+  <Lokal>
+    <Spec_kapacitet>
+      <string>Do 50 mesta</string>
+      <string>Od 50 do 100 mesta</string>
+      <string>Od 100 do 250 mesta</string>
+      <string>Preko 250 mesta</string>
+    </Spec_kapacitet>
+    <Spec_cene>
+      <string>Niske</string>
+      <string>Srednje</string>
+      <string>Visoke</string>
+      <string>Izuzetno visoke</string>
+    </Spec_cene>
+    <Spec_alkohol>
+      <string>Ne sluzi se</string>
+      <string>Sluzi se do 23h</string>
+      <string>Sluzi se kasno u noc</string>
+    </Spec_alkohol>
+    <Spec_tip>
+      <string>tip123</string>
+      <string>tip456</string>
+    </Spec_tip>
+    <Spec_etiketa>
+      <string>et789</string>
+      <string>et654</string>
+      <string>et123</string>
+    </Spec_etiketa>
+    <Oznaka>dsa</Oznaka>
+    <Ime>dsa</Ime>
+    <Opis />
+    <Tip>0</Tip>
+    <Tip_string>kafici</Tip_string>
+    <Etikete />
+    <Oznaka_etikete />
+    <Pusenje>false</Pusenje>
+    <Alkohol>0</Alkohol>
+    <Cene>0</Cene>
+    <Kapacitet>1</Kapacitet>
+    <Datum>6/10/2019 12:00:00 AM</Datum>
+    <Hendikepirani>true</Hendikepirani>
+    <Rezervacije>false</Rezervacije>
+    <Slika>file:///C:/Users/Aleksandar Beker/Documents/WEB/Vezbe/v2/Resursi/number 8.jpg</Slika>
+    <Pozicija>
+      <Point>
+        <X>526</X>
+        <Y>199</Y>
+      </Point>
+    </Pozicija>
+  </Lokal>
+</ArrayOfLokal>

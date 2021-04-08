@@ -1,0 +1,527 @@
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Xaml;
+using System.Xml.Serialization;
+
+namespace Projekat_52CU
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+        private Point startPoint = new Point();
+
+        public MainWindow()
+        {
+            ucitajLok();
+
+            InitializeComponent();
+            this.DataContext = this;
+        }
+        
+        ObservableCollection<Meni_stavke.Lokal> dod = new ObservableCollection<Meni_stavke.Lokal>();
+        public ObservableCollection<Meni_stavke.Lokal> Dodati_lokali
+        {
+            get
+            {
+                dod = Meni_stavke.Dodaj.Lokali;
+                return dod;
+            }
+            set
+            {
+                if (value != dod)
+                {
+                    dod = value;
+                    OnPropertyChanged("Dodati_lokali");
+                }
+            }
+        }
+
+        private void ListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startPoint = e.GetPosition(null);       // uzmimam startnu poziciju odakle pocinjem da vucem
+        }
+
+        private void ListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))  // neka minimalna distanca[tipa 10px], da bih ga smatrao drag-om
+            {
+                // Get the dragged ListViewItem
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem =
+                    FindAncestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+                // Find the data behind the ListViewItem
+                Meni_stavke.Lokal lokal = (Meni_stavke.Lokal)listView.ItemContainerGenerator.
+                    ItemFromContainer(listViewItem);        // ili prostije Student student = listView.getSelectedItem();
+
+                // Initialize the drag & drop operation
+                DataObject dragData = new DataObject("myFormat", lokal);      // "myFormat" je format u kojem pakujem Studenta u toj mojoj listi (npr. Ime, Prezime, Mail adresa)
+                DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+            }
+        }
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))  // neka minimalna distanca[tipa 10px], da bih ga smatrao drag-om
+            {
+                // uzmem sliku koja je drag-ovana
+                Image slika = sender as Image;
+                //MessageBox.Show(slika.ToolTip as string);    
+                Image slikaItem =
+                    FindAncestor<Image>((DependencyObject)e.OriginalSource);
+
+                Meni_stavke.Lokal lokal = null;
+                // Initialize the drag & drop operation
+                foreach (Meni_stavke.Lokal l in Meni_stavke.Dodaj.Lokali)
+                {
+                    if (l.Oznaka.Equals(slika.ToolTip as string))
+                    {
+                        lokal = l;
+                        break;
+                    }
+                }
+                DataObject dragData = new DataObject("myFormat", lokal);      // "myFormat" je format u kojem pakujem Lokal u toj mojoj listi (npr. Ime, Prezime, Mail adresa)
+                DragDrop.DoDragDrop(slikaItem, dragData, DragDropEffects.Move);
+            }
+        }
+
+        private static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)           // ako sam dosao do obj. tipa ListViewItem, vrati ga gore
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current); // ako nisam, uzmi njegovog roditelja(npr. WrapPanel) i proveri da li je on ListViewItem
+            }
+            while (current != null);
+            return null;
+        }
+
+
+        // dropujem na canvas
+        private void ListView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private List<Point> dodateSlike = new List<Point>();
+        private void ListView_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                Meni_stavke.Lokal lokal = e.Data.GetData("myFormat") as Meni_stavke.Lokal;      // preuzmem lokal
+                
+                int dim = 16;       // dimenzija slike (npr. 16x16)
+                Point trenutna = e.GetPosition(canvas);
+                foreach (Point p in dodateSlike)
+                {
+                    // provera da li postoji slika na toj poziciji (proveravam gornji levi ugao, donji desni, donji levi)
+                    if ((((trenutna.X > p.X) && (trenutna.X < (p.X + dim))) && ((trenutna.Y > p.Y) && (trenutna.Y < p.Y + dim)))
+                        || (((trenutna.X + dim > p.X) && (trenutna.X + dim < (p.X + dim))) && (((trenutna.Y + dim > p.Y) && (trenutna.Y + dim < p.Y + dim)) 
+                        || ((trenutna.Y > p.Y) && (trenutna.Y < p.Y + dim)) ))
+                        || ( ((trenutna.X > p.X) && (trenutna.X < p.X + dim)) && ( (trenutna.Y + dim > p.Y ) && (trenutna.Y + dim < p.Y + dim))))
+                    {
+                        MessageBox.Show("Na datoj poziciji vec postoji lokal.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+
+                // brisem sa stare pozicije ako ima neka slika sa istim ToolTip-om (oznaka lokala)
+                var images = canvas.Children.OfType<Image>().ToList();
+
+                bool obrisao = false;
+                if (startPoint.X > 200) {               // ako vrsim drag-ovanje na canvasu (200px je sirok panel gde je listView)
+                    foreach (var image in images)
+                    {
+                        foreach (Point p in dodateSlike)
+                        {
+                            int pY = (int)p.Y;              // jer je ovde p.Y double, a meni je point.Y int
+                            if (image.ToolTip.Equals(lokal.Oznaka) && !obrisao)
+                            {
+                                if ((p.X == point.X) && (pY == point.Y))
+                                {
+                                    canvas.Children.Remove(image);
+                                    dodateSlike.Remove(p);
+                                    obrisao = true;
+                                    break;                            
+                                }
+                            }
+                        }
+                    }
+                }
+                //MessageBox.Show("Stavio sam ga na poziciju: " + e.GetPosition(canvas));     // uzima poziciju na canvasu!
+                //MessageBox.Show(lokal.Slika);
+                
+
+                int coordY = (int)e.GetPosition(canvas).Y;      // jer mi je Y koordinata u double, a Name ne sme da sadrzi nista osim 
+                                                                // slova, brojeva i underscore-a
+                string name = "a" + e.GetPosition(canvas).X.ToString() + "_" + coordY.ToString();       // "a" jer mora poceti slovom ili "_" underscore-om
+                Image BodyImage = new Image
+                {
+                    Width = dim,
+                    Height = dim,
+                    ToolTip = lokal.Oznaka,
+                    Name = name,
+                    Source = new BitmapImage(new Uri(lokal.Slika, UriKind.Absolute)),
+                };
+
+                canvas.Children.Add(BodyImage);
+                canvas.Children[canvas.Children.Count - 1].MouseMove += Canvas_MouseMove;
+                canvas.Children[canvas.Children.Count - 1].PreviewMouseLeftButtonDown += ListView_PreviewMouseLeftButtonDown;
+                Canvas.SetTop(BodyImage, e.GetPosition(canvas).Y);
+                Canvas.SetLeft(BodyImage, e.GetPosition(canvas).X);
+                dodateSlike.Add(e.GetPosition(canvas));         // dodam ovu sliku u listu dodatih
+            }
+        }
+
+
+        // postavljanje background-a za canvas
+        private ImageSource _BGImage = new BitmapImage(new Uri("mapaBela.png", UriKind.Relative));
+        public ImageSource BGImage
+        {
+            get { return _BGImage; }
+            set
+            {
+                if (value != _BGImage)
+                {
+                    _BGImage = value;
+                    OnPropertyChanged("BGImage");
+                }
+            }
+        }
+
+        /* >>> LOKAL <<<  */
+        private void Dodaj_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Projekat_52CU.Tip.DodajTip.ListaTipova.Count == 0 || Projekat_52CU.Etiketa.DodajEtiketu.ListaEtiketa.Count == 0)
+            {
+                e.CanExecute = false;
+            }
+            else
+                e.CanExecute = true;            
+        }
+
+        private void Dodaj_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Meni_stavke.Dodaj();
+            s.Show();
+        }
+
+        private void Izmeni_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            
+            e.CanExecute = true;
+            
+        }
+
+        private void Izmeni_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Meni_stavke.Izmeni();
+            s.Show();
+        }
+
+        /* >>> TIP <<<  */
+        private void DTip_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;            
+        }
+
+        private void DTip_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Tip.DodajTip();
+            s.Show();
+        }
+
+        private void ITip_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            
+            e.CanExecute = true;
+            
+        }
+
+        private void ITip_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Tip.IzmeniTip();
+            s.Show();
+            //MessageBox.Show("Ova funkcija nije implementirana", "Izrada u toku");
+        }
+
+
+        /* >>> ETIKETA <<<  */
+        private void DEtiketu_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;       
+        }
+
+        private void DEtiketu_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Etiketa.DodajEtiketu();
+            s.Show();
+        }
+
+        private void IEtiketu_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            
+            e.CanExecute = true;
+            
+        }
+
+        private void IEtiketu_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Etiketa.IzmeniEtiketu();
+            s.Show();
+            //MessageBox.Show("Ova funkcija nije implementirana", "Izrada u toku");
+        }
+
+        private void PrikaziTabela_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if(Projekat_52CU.Meni_stavke.Dodaj.Lokali.Count != 0)
+                e.CanExecute = true;            
+            else
+                e.CanExecute = false;
+        }
+
+        private void PrikaziTabela_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var s = new Projekat_52CU.Meni_stavke.PrikaziTabela();
+            s.Show();
+        }
+
+
+
+        /* BUTTONS           */
+        private void Lokal_btn(object sender, RoutedEventArgs e)        // dugme na koje otvaram noi dijalog
+        {
+            var s = new Meni_stavke.Izmeni();
+            s.Show();
+        }
+
+        private void Tip_btn(object sender, RoutedEventArgs e)        // dugme na koje otvaram noi dijalog
+        {
+            var s = new Tip.IzmeniTip();
+            s.Show();
+        }
+
+        private void Etiketa_btn(object sender, RoutedEventArgs e)        // dugme na koje otvaram noi dijalog
+        {
+            var s = new Etiketa.IzmeniEtiketu();
+            s.Show();
+        }
+        /* ---------------- */
+
+        private void SacuvajEtiketu_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Etiketa.DodajEtiketu.ListaEtiketa.Count != 0)
+                e.CanExecute = true;
+            else
+                e.CanExecute = false;
+        }
+
+        private void SacuvajEtiketu_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            sacuvajEtiketu("etikete.txt");
+            MessageBox.Show("Uspesno ste sacuvali etikete!", "Sacuvaj etikete", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void UcitajEtiketu_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void UcitajEtiketu_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Etiketa.DodajEtiketu.ListaEtiketa = ucitajEtikete("etikete.txt");
+            MessageBox.Show("Uspesno ste ucitali etikete!", "Ucitaj etikete", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void SacuvajTipove_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Tip.DodajTip.ListaTipova.Count != 0)
+            {
+                e.CanExecute = true;
+            }
+            else
+                e.CanExecute = false;
+        }
+
+        private void SacuvajTipove_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            sacuvajTip("tipovi.txt");
+            MessageBox.Show("Uspesno ste sacuvali tipove lokala!", "Sacuvaj tipove lokala", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void UcitajTipove_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void UcitajTipove_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Tip.DodajTip.ListaTipova = ucitajTipove("tipovi.txt");
+            MessageBox.Show("Uspesno ste ucitali tipove lokala!", "Ucitaj tipove lokala", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void SacuvajLokale_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Meni_stavke.Dodaj.Lokali.Count != 0)
+            {
+                e.CanExecute = true;
+            }
+            else
+                e.CanExecute = false;
+        }
+
+        private void SacuvajLokale_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            // XML sacuvavanje - jer moram objekat da sacuvam
+
+            sacuvajTip("tipoviLokal.txt");
+            sacuvajEtiketu("etiketeLokal.txt");
+
+            string fullPath = System.IO.Path.GetFullPath("lokali.txt");
+            using (var writer = new System.IO.StreamWriter(fullPath))
+            {
+                var serializer = new XmlSerializer(Meni_stavke.Dodaj.Lokali.GetType());
+                serializer.Serialize(writer, Meni_stavke.Dodaj.Lokali);
+                writer.Flush();
+            }
+
+            MessageBox.Show("Uspesno ste sacuvali lokale!", "Sacuvaj lokale", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void UcitajLokale_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void UcitajLokale_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ucitajLok();   
+            MessageBox.Show("Uspesno ste ucitali lokale!", "Ucitaj lokale", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void ucitajLok()
+        {
+            Etiketa.DodajEtiketu.ListaEtiketa = ucitajEtikete("etiketeLokal.txt");      // ucitam tipove koje sam dodao za te lokale
+            Tip.DodajTip.ListaTipova = ucitajTipove("tipoviLokal.txt");             // ucitam etikete
+
+            // XML ucitavanje
+
+            ObservableCollection<Meni_stavke.Lokal> listaLokala = Meni_stavke.Dodaj.Lokali;
+            string fullPath = System.IO.Path.GetFullPath("lokali.txt");
+            using (var stream = System.IO.File.OpenRead(fullPath))
+            {
+                var serializer = new XmlSerializer(typeof(ObservableCollection<Meni_stavke.Lokal>));
+                listaLokala = serializer.Deserialize(stream) as ObservableCollection<Meni_stavke.Lokal>;
+            }
+
+            Meni_stavke.Dodaj.Lokali = listaLokala;
+        }
+
+        #region PropertyChangedNotifier
+        protected virtual void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+        
+
+        private void sacuvajTip(string fileName)               // cuvam trenutne tipove za lokal
+        {
+            string fullPath = System.IO.Path.GetFullPath(fileName);
+            System.IO.StreamWriter file = new System.IO.StreamWriter(fullPath);
+
+            foreach (Tip.TipLokala t in Tip.DodajTip.ListaTipova)
+            {
+                string text = t.Oznaka + "|" + t.NazivTipa + "|" + t.Opis + "|" + t.Slika;
+                file.WriteLine(text);
+            }
+            file.Close();
+        }
+
+        private void sacuvajEtiketu(string fileName)           // cuvam trenutne etikete za lokal
+        {
+            string fullPath = System.IO.Path.GetFullPath(fileName);
+            System.IO.StreamWriter file = new System.IO.StreamWriter(fullPath);
+
+            foreach (Etiketa.Etiketa et in Etiketa.DodajEtiketu.ListaEtiketa)
+            {
+                string text = et.Oznaka + "|" + et.Opis + "|" + et.Boja.ToString();
+                file.WriteLine(text);
+            }
+            file.Close();
+        }
+
+        private ObservableCollection<Etiketa.Etiketa> ucitajEtikete(string fileName)
+        {
+            ObservableCollection<Etiketa.Etiketa> listaEtiketa = Etiketa.DodajEtiketu.ListaEtiketa;
+            listaEtiketa.Clear();
+            string fullPath = System.IO.Path.GetFullPath(fileName);
+            string[] lines = System.IO.File.ReadAllLines(fullPath);
+
+            foreach (string line in lines)
+            {
+                Etiketa.Etiketa l = new Etiketa.Etiketa(line);
+                listaEtiketa.Add(l);
+            }
+
+            return listaEtiketa;
+        }
+
+        private ObservableCollection<Tip.TipLokala> ucitajTipove(string fileName)
+        {
+            ObservableCollection<Tip.TipLokala> listaTipova = Tip.DodajTip.ListaTipova;
+            listaTipova.Clear();
+            string fullPath = System.IO.Path.GetFullPath(fileName);
+            string[] lines = System.IO.File.ReadAllLines(fullPath);
+
+            foreach (string line in lines)
+            {
+                Tip.TipLokala l = new Tip.TipLokala(line);
+                listaTipova.Add(l);
+            }
+
+            return listaTipova;
+        }
+        
+    }
+
+}

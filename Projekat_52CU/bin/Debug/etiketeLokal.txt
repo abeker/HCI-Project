@@ -1,0 +1,3 @@
+et789|Opis etikete 789|#FF000080
+et654|Opis etikete 54|#FF000000
+et123|opis|#FFF0F8FF

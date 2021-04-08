@@ -1,0 +1,117 @@
+﻿<Window x:Class="Projekat_52CU.Meni_stavke.Dodaj"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projekat_52CU.Meni_stavke"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Focusable="True"
+        Icon="grb_jpg_GXD_icon.ico"
+        Title="Dodavanje lokala" Height="375" Width="550">
+    <Window.Resources>
+        <Style x:Key="rowStyle" TargetType="RowDefinition">
+            <Setter Property="Height" Value="23"/>
+        </Style>
+        <Style x:Key="checkStyle" TargetType="CheckBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="75,0,0,0"/>
+        </Style>
+        <Style x:Key="comboStyle" TargetType="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="25,0,0,0"/>
+            <Setter Property="Width" Value="124"/>
+        </Style>
+        <Style x:Key="listStyle" TargetType="ListBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="25,0,0,0"/>
+            <Setter Property="Width" Value="124"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom">
+            <Button DockPanel.Dock="Left" Padding="5" Margin="5" IsCancel="True" Click="Click_Cancel">Odustani</Button>
+            <Button DockPanel.Dock="Right" Padding="5" Margin="5" IsDefault="True" Click="Click_Add">Dodaj</Button>
+            <Separator DockPanel.Dock="Bottom"></Separator>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                    <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="170"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="1">Oznaka lokala:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="2">Naziv lokala:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="3">Opis:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="4">Tip lokala:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="5">Etiketa:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="6">Sluzenje alkohola:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="7">Kategorija cena:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="8">Kategorija kapaciteta:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="9">Datum otvaranja:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="10">Dostupan za hendikepirane:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="11">Dozvoljeno pusenje:</TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="12">Prima rezervacije:</TextBlock>
+
+                
+                <TextBox Grid.Column="1" Grid.Row="1" Name="txt_oznaka"></TextBox>
+                <TextBox Grid.Column="1" Grid.Row="2" Name="txt_naziv"></TextBox>
+                <TextBox Grid.Column="1" Grid.Row="3" Name="txt_opis"></TextBox>
+
+                <ComboBox Grid.Column="1" Grid.Row="4" Name="cb_tip" ItemsSource="{Binding Path=Tipovi}" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" DropDownClosed="ComboBox_DropDownClosed" Style="{StaticResource ResourceKey=comboStyle}">
+                </ComboBox>
+                <ListBox Grid.Column="1" Grid.Row="5" Name="lb_etiketa" SelectionMode="Multiple" ItemsSource="{Binding Path=Etikete}" Style="{StaticResource ResourceKey=listStyle}"/>
+                
+                <ComboBox Grid.Column="1" Grid.Row="6" Name="cb_alkohol" ItemsSource="{Binding Path=Specif_alkohol}" SelectedIndex="0" Style="{StaticResource ResourceKey=comboStyle}"/>
+                <ComboBox Grid.Column="1" Grid.Row="7" Name="cb_cena" ItemsSource="{Binding Path=Specif_cena}" SelectedIndex="0" Style="{StaticResource ResourceKey=comboStyle}"/>
+                <ComboBox Grid.Column="1" Grid.Row="8" Name="cb_kap" ItemsSource="{Binding Path=Specif_kapacitet}" SelectedIndex="0" Style="{StaticResource ResourceKey=comboStyle}"/>
+                
+                <DatePicker x:Name="dp" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="37,0,0,0"/>
+                <CheckBox Grid.Column="1" Grid.Row="10" Style="{StaticResource ResourceKey=checkStyle}" Name="chb_hendikepirani">
+                    <WrapPanel>
+                        <TextBlock>
+					        Dostupan za hendikepirane
+                        </TextBlock>
+                        <Image Source="Projekat" Width="16" Height="16" Margin="5,0" />
+                    </WrapPanel>
+                </CheckBox>
+
+                <CheckBox Grid.Column="1" Grid.Row="11" Style="{StaticResource ResourceKey=checkStyle}" Name="chb_pusenje"/>
+                <CheckBox Grid.Column="1" Grid.Row="12" Style="{StaticResource ResourceKey=checkStyle}" Name="chb_rezervacije"/>
+
+                <Grid Grid.Column="2" Grid.Row="5" Grid.RowSpan="8">
+                    <Image Margin="12,12,12,71" Name="imgPhoto" Stretch="Fill" Grid.Column="1"/>
+                    <Button Height="23" HorizontalAlignment="Left" Margin="28,0,12,34" Name="btnLoad" VerticalAlignment="Bottom"
+                            Width="75" Grid.Column="1" Click="btnLoad_Click">_Dodaj sliku</Button>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+</Window>

@@ -1,0 +1,126 @@
+﻿<Window x:Class="Projekat_52CU.Meni_stavke.PrikaziTabela"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projekat_52CU.Meni_stavke"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Tabela lokala" Height="450" Width="650">
+    <Window.Resources>
+        <Style x:Key="rowStyle" TargetType="RowDefinition">
+            <Setter Property="Height" Value="22"/>
+        </Style>
+        <Style x:Key="checkStyle" TargetType="CheckBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="140,0,0,0"/>
+        </Style>
+        <Style x:Key="txtStyle" TargetType="TextBox">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Setter Property="Margin" Value="5,0,40,0"/>
+        </Style>
+        <Style x:Key="comboStyle" TargetType="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="80,0,0,0"/>
+            <Setter Property="Width" Value="130"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="dgrMain" ItemsSource="{Binding Path=Lokali}" IsReadOnly="True" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Jedinstvena oznaka" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Oznaka}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Naziv lokala" Width="Auto" Binding="{Binding Ime}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Tip lokala" Width="Auto" Binding="{Binding Tip}"></DataGridTextColumn>
+            </DataGrid.Columns>
+
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Pusenje: "></TextBlock>
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+        </DataGrid>
+        <Grid Grid.Column="0" Grid.Row="1" DataContext="{Binding ElementName=dgrMain,Path=SelectedItem}">
+            <Grid.RowDefinitions>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+                <RowDefinition Style="{StaticResource ResourceKey=rowStyle}"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0">Jedinstvena oznaka:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1">Naziv lokala:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="2">Opis:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="3">Tip lokala:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="4">Etiketa:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="5">Sluzenje alkohola:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="6">Kategorija cena:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="7">Kategorija kapaciteta:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="8">Datum otvaranja:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="9">Dostupan za hendikepirane:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="10">Dozvoljeno pusenje:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="11">Prima rezervacije:</TextBlock>
+
+            <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ResourceKey=txtStyle}" Text="{Binding Path=Oznaka}"></TextBox>
+            <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ResourceKey=txtStyle}" Text="{Binding Path=Ime}"></TextBox>
+            <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource ResourceKey=txtStyle}" Text="{Binding Path=Opis}"></TextBox>
+            <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Path=Tipovi}" Style="{StaticResource ResourceKey=comboStyle}"/>
+            <ComboBox Grid.Column="1" Grid.Row="4" ItemsSource="{Binding Path=Tipovi}" Style="{StaticResource ResourceKey=comboStyle}"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource ResourceKey=txtStyle}" Text="{Binding Path=Alkohol}"></TextBox>
+            <ComboBox Grid.Column="1" Grid.Row="6" ItemsSource="{Binding Path=Specif_cene}" Style="{StaticResource ResourceKey=comboStyle}"/>
+            <ComboBox Grid.Column="1" Grid.Row="7" Style="{StaticResource ResourceKey=comboStyle}">
+                <ComboBoxItem>Do 50 mesta</ComboBoxItem>
+                <ComboBoxItem>Od 50 do 100 mesta</ComboBoxItem>
+                <ComboBoxItem>Od 100 do 250 mesta</ComboBoxItem>
+                <ComboBoxItem>Preko 250 mesta</ComboBoxItem>
+            </ComboBox>
+            <DatePicker Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,0,0,0"/>
+            <CheckBox Grid.Column="1" Grid.Row="9" Style="{StaticResource ResourceKey=checkStyle}" IsChecked="{Binding Path=Hendikepirani}"/>
+            <CheckBox Grid.Column="1" Grid.Row="10" Style="{StaticResource ResourceKey=checkStyle}" IsChecked="{Binding Path=Pusenje}"/>
+            <CheckBox Grid.Column="1" Grid.Row="11" Style="{StaticResource ResourceKey=checkStyle}" IsChecked="{Binding Path=Rezervacije}"/>
+            <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="8">
+                <Image Margin="12,12,12,71" Name="imgPhoto" Stretch="Fill" Grid.Column="1" />
+                <Button Height="23" HorizontalAlignment="Left" Margin="28,0,12,34" Name="btnLoad" VerticalAlignment="Bottom"
+                            Width="75" Grid.Column="1" Click="btnLoad_Click">_Load</Button>
+            </Grid>
+        </Grid>
+        <ScrollBar HorizontalAlignment="Left" Margin="792,135,-17,0" VerticalAlignment="Top" RenderTransformOrigin="0.387,-2.985"/>
+    </Grid>
+</Window>

@@ -1,0 +1,2 @@
+tip123|kafici|Opis kafica|file:///C:/Users/Aleksandar Beker/Documents/WEB/Vezbe/v2/Resursi/number 8.jpg
+tip456|restoran|Opis restorana|C:\Users\Aleksandar Beker\Documents\WEB\Vezbe\v2\Resursi\shimmering substance.jpg
